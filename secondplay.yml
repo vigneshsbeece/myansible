@@ -1,0 +1,17 @@
+---
+- hosts: vicky 
+  become: true
+  become_user: root
+  tasks:
+  - name: Copy the script
+    copy: 
+      src: /home/user1/myplaybooks/testscript.bash 
+      dest: /tmp/testscript.bash
+      mode: 077
+  - name: Run the script
+    shell:
+      /tmp/testscript.bash >> /tmp/testscript.logs
+  - name: Get the logs file to current dir
+    fetch:
+      src: /tmp/testscript.logs
+      dest: /home/user1/myplaybooks/testscript.logs

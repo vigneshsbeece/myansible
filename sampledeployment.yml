@@ -1,0 +1,27 @@
+---
+-  hosts: vicky
+   become: true
+   become_user: root
+   tasks:
+   - name: Checking Tomcat status
+     shell: ps -ef | grep tomcat | grep -v grep  | grep catalina.base |wc -l
+     register: tomcat_status
+   - name: Printing Tomcat Status
+     debug: msg="{{tomcat_status.stdout}} Tomcat is up and running fine"
+     when: tomcat_status.stdout=="1"
+   - name: Printing Tomcat Status
+     debug: msg="{{tomcat_status}} Tomcat is Down!!!!!!"
+     when: tomcat_status.stdout!="1"
+   - name: Copying Sample War file
+     copy: src=/home/user1/myplaybooks/WAR/sample.war dest=/usr/share/tomcat/webapps/sample.war
+     register: copy_status
+     when: tomcat_status.stdout=="1"
+   - name: Gather sample.war file infor
+     stat: 
+       path: /tmp/sample.war
+     register: statsresult
+   - name: Printing Stats Resut
+     debug: msg=" Value is {{statsresult.stat.exists}} "
+   - name: Restarting the Tomcat
+     service: name=tomcat state=restarted enabled=yes
+     when: statsresult.stat.exists==True
