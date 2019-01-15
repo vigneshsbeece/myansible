@@ -1,0 +1,30 @@
+ansible
+
+- a configuration management tool
+- helps ops guys to manage the infra
+- rather than configuring manually we can use ansible
+- its like puppet but its different and has some thing uniq
+- ansible is quiet simple when compared to puppet
+- it uses YAML language
+- ansibel machine is only linux only ( also it needs python)
+- and it cannot be any other server
+- for each server we need to do password less authentication
+- ansible needs python 
+- every configuration will be passed as python package and will be removed after ansible installation
+
+configuration:
+
+/etc/ansible/hosts - file u need to mention the group name and ip/hostname below the group name
+
+for example
+[webserver]
+10.10.10.10
+
+now you can check the connectivity from ansible - server
+
+ansible -m ping testserver
+
+not ansible server will ping all the mentioned hosts mentioned in the testserver group
+ -m here is module
+
+
